@@ -66,16 +66,8 @@ export const createProduct = async (req: Request | any, res: Response) => {
 
   try {
     const data = await Products.create({
-      name,
-      images: Gallary,
-      description,
-      price,
-      rating,
-      stock,
-      num_reviews,
-      reviews,
-      catagoryId,
-      userId: users_id,
+...req.body,
+      user_id: users_id
     });
 
     res.status(200).json({
@@ -120,15 +112,7 @@ export const updateProduct = async (req: Request | any, res: Response) => {
     }
     const data = await Products.update(
       {
-        name,
-        images: Gallary,
-        description,
-        price,
-        rating,
-        stock,
-        num_reviews,
-        reviews,
-        catagoryId,
+       ...req.body,
         userId: users_id,
       },
       { where: { id: prodId } }
@@ -181,7 +165,7 @@ export const getUserProducts = async (req: Request, res: Response) => {
         message: `User not Found with id ${user_id}`,
       });
     }
-    const data = await Products.findAll({ where: { userId: user_id } });
+    const data = await Products.findAll({ where: { user_id: user_id } });
     res.status(200).json({
       status: "success",
       length: data.length,

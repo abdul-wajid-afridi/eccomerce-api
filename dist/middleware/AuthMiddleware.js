@@ -54,7 +54,7 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         const validToken = verify(token, process.env.SECRETE_KEY);
         // this line mean to find a user by this token and remove password from it coz we will store it as a token
         // req.user = await Users.findById(validToken.id).select("-password");
-        req.user = yield UserModel_1.default.findByPk(validToken.id);
+        req.user = yield UserModel_1.default.findByPk(validToken.id, { attributes: { exclude: ["password"] } });
         return next();
     }
     catch (error) {

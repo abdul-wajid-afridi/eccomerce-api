@@ -1,24 +1,3 @@
-// import multer from "multer";
-
-// const storage = multer.diskStorage({
-//   destination: "uploads",
-//   filename: (req, file, callB) => {
-//     return callB(null, `img-${Date.now()}.${file.mimetype.split("/")[1]}`);
-//   },
-// });
-
-// const filterimg = (req, file, callB) => {
-//   if (file.mimetype.startsWith("image")) {
-//     return callB(null, true);
-//   } else {
-//     return console.log("only images are allowed");
-//   }
-// };
-// export const UplaodFiles = multer({
-//   storage,
-//   fileFilter: filterimg,
-// });
-
 import { Request } from "express";
 import multer, { StorageEngine } from "multer";
 

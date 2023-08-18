@@ -15,21 +15,17 @@ Orders.init({
         autoIncrement: true,
         primaryKey: true,
     },
-    userId: {
-        type: sequelize_1.DataTypes.BIGINT,
-        field: "user_id",
-    },
-    productId: {
-        type: sequelize_1.DataTypes.BIGINT,
-        field: "product_id",
-    },
+    user_id: sequelize_1.DataTypes.BIGINT,
+    product_id: sequelize_1.DataTypes.BIGINT,
+    total_price: sequelize_1.DataTypes.DECIMAL(),
+    order_date: sequelize_1.DataTypes.DATE,
 }, {
     timestamps: true,
     sequelize: dbConfig_1.default,
     modelName: "orders",
 });
-ProductModel_1.default.hasMany(Orders);
-Orders.belongsTo(ProductModel_1.default);
-UserModel_1.default.hasMany(Orders);
-Orders.belongsTo(UserModel_1.default);
+ProductModel_1.default.hasMany(Orders, { foreignKey: "product_id" });
+Orders.belongsTo(ProductModel_1.default, { foreignKey: "product_id" });
+UserModel_1.default.hasMany(Orders, { foreignKey: "user_id" });
+Orders.belongsTo(UserModel_1.default, { foreignKey: "user_id" });
 exports.default = Orders;

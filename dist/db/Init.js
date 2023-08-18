@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const CatagoryModel_1 = __importDefault(require("../model/CatagoryModel"));
+const GemTypeModel_1 = __importDefault(require("../model/GemTypeModel"));
 const LikesModel_1 = __importDefault(require("../model/LikesModel"));
 const ProductModel_1 = __importDefault(require("../model/ProductModel"));
 const UserModel_1 = __importDefault(require("../model/UserModel"));
@@ -14,5 +15,6 @@ const dbInit = () => {
     CatagoryModel_1.default.sync({ force: true });
     ProductModel_1.default.sync({ force: true });
     LikesModel_1.default.sync({ force: true });
+    GemTypeModel_1.default.sync({ force: true });
 };
 exports.default = dbInit;

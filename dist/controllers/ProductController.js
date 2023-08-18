@@ -68,18 +68,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const Gallary = [];
     img.map((it) => Gallary.push({ url: it.filename }));
     try {
-        const data = yield ProductModel_1.default.create({
-            name,
-            images: Gallary,
-            description,
-            price,
-            rating,
-            stock,
-            num_reviews,
-            reviews,
-            catagoryId,
-            userId: users_id,
-        });
+        const data = yield ProductModel_1.default.create(Object.assign(Object.assign({}, req.body), { user_id: users_id }));
         res.status(200).json({
             status: "success",
             data,
@@ -111,18 +100,7 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 message: `product not Found with id ${prodId}`,
             });
         }
-        const data = yield ProductModel_1.default.update({
-            name,
-            images: Gallary,
-            description,
-            price,
-            rating,
-            stock,
-            num_reviews,
-            reviews,
-            catagoryId,
-            userId: users_id,
-        }, { where: { id: prodId } });
+        const data = yield ProductModel_1.default.update(Object.assign(Object.assign({}, req.body), { userId: users_id }), { where: { id: prodId } });
         res.status(200).json({
             status: "success",
             message: `data is updated successfully with id ${prodId}`,
@@ -171,7 +149,7 @@ const getUserProducts = (req, res) => __awaiter(void 0, void 0, void 0, function
                 message: `User not Found with id ${user_id}`,
             });
         }
-        const data = yield ProductModel_1.default.findAll({ where: { userId: user_id } });
+        const data = yield ProductModel_1.default.findAll({ where: { user_id: user_id } });
         res.status(200).json({
             status: "success",
             length: data.length,

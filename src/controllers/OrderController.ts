@@ -3,7 +3,7 @@ import Orders from "../model/OrderModel";
 import Users from "../model/UserModel";
 
 // create orders
-export const createOrder = async (req: Request, res: Response) => {
+export const createOrder = async (req: any, res: Response) => {
   try {
     const order = await Orders.create({
       ...req.body,
@@ -61,9 +61,9 @@ export const getSingleOrder = async (req: Request, res: Response) => {
 };
 
 // get user's Orders
-export const getUsersOrders = async (req: Request, res: Response) => {
+export const getUsersOrders = async (req: any, res: Response) => {
   try {
-    const order = await Orders.findAll({ where: { userId: req.user.userId } });
+    const order = await Orders.findAll({ where: { user_id: req.user.userId } });
     if (!order) res.json({ status: "fail", message: "no order found" });
 
     res.status(200).json({

@@ -116,6 +116,7 @@ const sequelize_1 = require("sequelize");
 const dbConfig_1 = __importDefault(require("../db/dbConfig"));
 const CatagoryModel_1 = __importDefault(require("./CatagoryModel"));
 const UserModel_1 = __importDefault(require("./UserModel"));
+const GemTypeModel_1 = __importDefault(require("./GemTypeModel"));
 class Products extends sequelize_1.Model {
 }
 Products.init({
@@ -141,32 +142,29 @@ Products.init({
         //   this.setDataValue('paths', val.join(';'));
         // },
     },
+    thumbnail: sequelize_1.DataTypes.STRING,
+    video: sequelize_1.DataTypes.STRING,
     description: sequelize_1.DataTypes.STRING,
     price: sequelize_1.DataTypes.INTEGER,
-    rating: sequelize_1.DataTypes.INTEGER,
     stock: sequelize_1.DataTypes.INTEGER,
-    num_reviews: sequelize_1.DataTypes.INTEGER,
-    reviews: sequelize_1.DataTypes.STRING,
     // association fields
-    userId: {
-        type: sequelize_1.DataTypes.BIGINT,
-        field: "user_id",
-    },
-    catagoryId: {
-        type: sequelize_1.DataTypes.BIGINT,
-        field: "catagory_id",
-    },
+    user_id: sequelize_1.DataTypes.BIGINT,
+    catagory_id: sequelize_1.DataTypes.BIGINT,
+    gem_type_id: sequelize_1.DataTypes.BIGINT,
+    created_at: sequelize_1.DataTypes.DATE,
 }, {
-    timestamps: true,
+    timestamps: false,
     sequelize: dbConfig_1.default,
     modelName: "products",
 });
 // Define the association between Users and Products
-UserModel_1.default.hasMany(Products); // A user can have many products
-Products.belongsTo(UserModel_1.default); // A product belongs to one user
+UserModel_1.default.hasMany(Products, { foreignKey: "user_id" }); // A user can have many products
+Products.belongsTo(UserModel_1.default, { foreignKey: "user_id" }); // A product belongs to one user
 // Define the association between catagory and Products
-CatagoryModel_1.default.hasMany(Products); // A catagory can have many products
-Products.belongsTo(CatagoryModel_1.default); // A product belongs to one catagory
+CatagoryModel_1.default.hasMany(Products, { foreignKey: "catagory_id" }); // A catagory can have many products
+Products.belongsTo(CatagoryModel_1.default, { foreignKey: "catagory_id" }); // A product belongs to one catagory
+GemTypeModel_1.default.hasMany(Products, { foreignKey: "gem_type_id" });
+Products.belongsTo(GemTypeModel_1.default, { foreignKey: "gem_type_id" });
 // Products.addHook("beforeCreate", async (prod) => {
 //   const result = await Products.findOne({
 //     where: {

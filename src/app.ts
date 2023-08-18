@@ -13,7 +13,7 @@ import catagoryRoutes from "./routes/CatagoryRoutes";
 
 const app = express();
 dotenv.config();
-const PORT: number = parseInt(process.env.PORT || "3000");
+const PORT: number = parseInt(process.env.PORT || "3004");
 
 // middlewares
 app.use(cookieParser());
@@ -25,14 +25,14 @@ app.use(
     // origin: {
     //   URL: "http://localhost:3000/",
     // },
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
     credentials: true,
   })
 );
 
 // tables genrating
 // make it comment when once table is created
-// dbInit;
+dbInit
 
 // routes
 app.use("/api_v1", userRoutes);
