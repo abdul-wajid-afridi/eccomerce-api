@@ -9,6 +9,7 @@ export interface OrderProps {
   user_id: number;
   total_price: number;
   order_date: Date;
+  status:"DELIVERED" | "PENDING"
 }
 
 class Orders extends Model<OrderProps> {}
@@ -24,6 +25,7 @@ Orders.init(
     product_id: DataTypes.BIGINT,
     total_price: DataTypes.DECIMAL(),
     order_date: DataTypes.DATE,
+    status:DataTypes.ENUM("DELIVERED" , "PENDING")
   },
   {
     timestamps: true,
