@@ -9,9 +9,9 @@ export interface OrderItemProps {
   product_id: number;
   order_id: number;
   total_price: number;
-  order_date: Date;
   quantity: number;
 }
+
 
 class OrderItem extends Model<OrderItemProps> {}
 
@@ -25,7 +25,6 @@ OrderItem.init(
     order_id: DataTypes.BIGINT,
     product_id: DataTypes.BIGINT,
     total_price: DataTypes.DECIMAL(),
-    order_date: { type: DataTypes.DATE, defaultValue: Date.now },
     quantity: DataTypes.INTEGER,
   },
   {
