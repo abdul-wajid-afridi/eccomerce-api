@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Orders, { OrderProps } from "../model/OrderModel";
 import Users from "../model/UserModel";
 import Products from "../model/ProductModel";
-import OrderItem from "../model/OrderItem";
+import OrderItem, { OrderItemProps } from "../model/OrderItem";
 
 // create orders
 export const createOrder = async (req: any, res: Response) => {
@@ -136,7 +136,7 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
   const orderItems = await OrderItem.findAll({
     where: { id: order.dataValues.id },
   });
-  orderItems.map((it) => {
+  orderItems.map((it: any) => {
     updateStock(it.dataValues.product_id, it.dataValues.quantity);
   });
 

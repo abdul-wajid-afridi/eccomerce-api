@@ -6,10 +6,10 @@ import Orders from "./OrderModel";
 
 export interface OrderItemProps {
   id?: number;
-  // product_id: number;
-  // order_id: number;
-  total_price: number;
-  quantity: number;
+  product_id?: number;
+  order_id?: number;
+  total_price?: number;
+  quantity?: number;
 }
 
 class OrderItem extends Model<OrderItemProps> {}
