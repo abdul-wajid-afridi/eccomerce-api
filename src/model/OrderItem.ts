@@ -12,7 +12,6 @@ export interface OrderItemProps {
   quantity: number;
 }
 
-
 class OrderItem extends Model<OrderItemProps> {}
 
 OrderItem.init(

@@ -5,11 +5,12 @@ import Users from "./UserModel";
 
 export interface OrderProps {
   id?: number;
-  product_id: number;
+  // product_id: number;
+  // user id means its buyer_id who buys this order or products
   user_id: number;
   total_price: number;
   order_date: Date;
-  status:"DELIVERED" | "PENDING"
+  status: "DELIVERED" | "PENDING";
 }
 
 class Orders extends Model<OrderProps> {}
@@ -22,10 +23,10 @@ Orders.init(
       primaryKey: true,
     },
     user_id: DataTypes.BIGINT,
-    product_id: DataTypes.BIGINT,
+    // product_id: DataTypes.BIGINT,
     total_price: DataTypes.DECIMAL(),
     order_date: DataTypes.DATE,
-    status:DataTypes.ENUM("DELIVERED" , "PENDING")
+    status: DataTypes.ENUM("DELIVERED", "PENDING"),
   },
   {
     timestamps: true,
@@ -34,8 +35,8 @@ Orders.init(
   }
 );
 
-Products.hasMany(Orders, { foreignKey: "product_id" });
-Orders.belongsTo(Products, { foreignKey: "product_id" });
+// Products.hasMany(Orders, { foreignKey: "product_id" });
+// Orders.belongsTo(Products, { foreignKey: "product_id" });
 
 Users.hasMany(Orders, { foreignKey: "user_id" });
 Orders.belongsTo(Users, { foreignKey: "user_id" });

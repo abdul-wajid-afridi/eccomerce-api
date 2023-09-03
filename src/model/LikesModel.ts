@@ -26,22 +26,6 @@ Likes.init(
       type: DataTypes.BIGINT,
       field: "product_id",
     },
-    // product_id: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: {
-    //     model: Products,
-    //     key: "id",
-    //   },
-    // },
-    // user_id: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: {
-    //     model: Users,
-    //     key: "id",
-    //   },
-    // },
   },
   {
     timestamps: true,
@@ -54,7 +38,7 @@ Likes.init(
 Products.hasMany(Likes);
 Likes.belongsTo(Products);
 
-Users.hasMany(Likes); // A user can have many likes
+Users.hasMany(Likes);
 Likes.belongsTo(Users);
 
 export default Likes;

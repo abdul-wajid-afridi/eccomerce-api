@@ -97,14 +97,14 @@ export const deleteOrder = async (req: Request, res: Response) => {
 };
 
 // get all Orders --admin
-export const getAllAdminOrders =  async (req:Request, res:Response) => {
+export const getAllAdminOrders = async (req: Request, res: Response) => {
   try {
-    const order = await Orders.findAll()
+    const order = await Orders.findAll();
     if (!order) res.json({ status: "fail", message: "no order found" });
 
     let totalPrice = 0;
 
-    order.map((it:any) => {
+    order.map((it: any) => {
       return (totalPrice += it?.total_price);
     });
 
@@ -119,50 +119,31 @@ export const getAllAdminOrders =  async (req:Request, res:Response) => {
   }
 };
 
-
 // update order satus
-export const updateOrderStatus = async (req:Request, res:Response) => {
-  const order  = await Orders.findByPk(req.params.id);
+export const updateOrderStatus = async (req: Request, res: Response) => {
+  const order = await Orders.findByPk(req.params.id);
 
   if (!order) {
     return res.status(400).json({ status: "fail", message: "no order found" });
   }
 
-  if (order.dataValues?.status === "DELIVERED" ) {
+  if (order.dataValues?.status === "DELIVERED") {
     return res
       .status(400)
       .json({ status: "fail", message: "order is already delivered" });
   }
 
-  // changing the quantity
-  // order.orderItems.forEach(async (it) => {
-  //   const prod = await Products.findById(it.productId);
-
-  //   console.log(prod.stock);
-  //   console.log(it.quantity);
-  //   await Products.findOneAndUpdate(
-  //     {
-  //       _id: it.productId,
-  //       stock: prod.stock - it.quantity,
-  //     },
-  //     { new: true }
-  //   );
-  //   await Products.bulkSave();
-  // });
-
-
- const orderItems=await OrderItem.findAll({where:{id:order.dataValues.id}})
- orderItems.map(it=>{
-   updateStock(it.dataValues.product_id,it.dataValues.quantity)
- })
-  // .forEach(async (it) => {
-  //   await updateStock(it.productId, it.quantity);
-  // });
+  const orderItems = await OrderItem.findAll({
+    where: { id: order.dataValues.id },
+  });
+  orderItems.map((it) => {
+    updateStock(it.dataValues.product_id, it.dataValues.quantity);
+  });
 
   order.dataValues.status = req.body.status;
 
   if (req.body.status === "DELIVERED") {
-    order.dataValues.order_date =new Date;
+    order.dataValues.order_date = new Date();
   }
 
   await order.save();
@@ -174,72 +155,14 @@ export const updateOrderStatus = async (req:Request, res:Response) => {
 };
 
 // updating the quantity stock
-async function updateStock(id:number, quantity:number) {
+async function updateStock(id: number, quantity: number) {
   const product = await Products.findByPk(id);
 
   if (product) {
     product.dataValues.stock = (product.dataValues.stock as number) - quantity;
   }
-  
+
   // product?.dataValues.stock as number -= quantity;
 
-  product?.save()
+  product?.save();
 }
-
-
-
-// // update order satus
-// export const updateOrderStatus = async (req, res) => {
-//   const order = await Orders.findById(req.params.id);
-
-//   if (!order) {
-//     return res.status(400).json({ status: "fail", message: "no order found" });
-//   }
-
-//   if (order.orderStatus == "Delivered") {
-//     return res
-//       .status(400)
-//       .json({ status: "fail", message: "order is already delivered" });
-//   }
-
-//   // changing the quantity
-//   // order.orderItems.forEach(async (it) => {
-//   //   const prod = await Products.findById(it.productId);
-
-//   //   console.log(prod.stock);
-//   //   console.log(it.quantity);
-//   //   await Products.findOneAndUpdate(
-//   //     {
-//   //       _id: it.productId,
-//   //       stock: prod.stock - it.quantity,
-//   //     },
-//   //     { new: true }
-//   //   );
-//   //   await Products.bulkSave();
-//   // });
-
-//   order.orderItems.forEach(async (it) => {
-//     await updateStock(it.productId, it.quantity);
-//   });
-
-//   order.orderStatus = req.body.status;
-
-//   if (req.body.status == "Delivered") {
-//     order.deliveredAt = Date.now();
-//   }
-
-//   await order.save();
-
-//   res.status(200).json({
-//     status: "success",
-//     message: "done!",
-//   });
-// };
-
-// // updating the quantity stock
-// async function updateStock(id, quantity) {
-//   const product = await Products.findById(id);
-//   product.stock -= quantity;
-
-//   await product.save();
-// }

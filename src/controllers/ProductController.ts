@@ -58,9 +58,9 @@ export const createProduct = async (req: any | any, res: Response) => {
     reviews,
   } = req.body;
   const users_id: number = req.user?.id;
-  const img = req.files["images"][0]?.filename ;
-  const thumbnail=req.files["thumbnail"][0]?.filename
-  const video=req.files["video"][0]?.filename
+  const img = req.files["images"][0]?.filename;
+  const thumbnail = req.files["thumbnail"][0]?.filename;
+  const video = req.files["video"][0]?.filename;
   const Gallary: GallProp[] = [];
   // const file:Express.Multer.File=req.files
 
@@ -68,10 +68,11 @@ export const createProduct = async (req: any | any, res: Response) => {
 
   try {
     const data = await Products.create({
-...req.body,
+      ...req.body,
       user_id: users_id,
-      images:Gallary,
-      video,thumbnail
+      images: Gallary,
+      video,
+      thumbnail,
     });
 
     res.status(200).json({
@@ -102,9 +103,9 @@ export const updateProduct = async (req: Request | any, res: Response) => {
   const users_id: number = req.user?.id;
   // const img: Express.Multer.File[] = req.files;
   // create a type for it
-  const img = req.files["images"][0]?.filename ;
-  const thumbnail=req.files["thumbnail"][0]?.filename
-  const video=req.files["video"][0]?.filename
+  const img = req.files["images"][0]?.filename;
+  const thumbnail = req.files["thumbnail"][0]?.filename;
+  const video = req.files["video"][0]?.filename;
   const Gallary: GallProp[] = [];
   // const file:Express.Multer.File=req.files
 
@@ -119,10 +120,11 @@ export const updateProduct = async (req: Request | any, res: Response) => {
     }
     const data = await Products.update(
       {
-       ...req.body,
+        ...req.body,
         userId: users_id,
-        images:Gallary,
-        video,thumbnail
+        images: Gallary,
+        video,
+        thumbnail,
       },
       { where: { id: prodId } }
     );

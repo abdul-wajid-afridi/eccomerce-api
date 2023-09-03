@@ -18,7 +18,7 @@ Routes.get("/orders", protect, getAllOrders);
 Routes.get("/single-order/:id", protect, getSingleOrder);
 Routes.get("/users-orders", protect, getUsersOrders);
 Routes.get("/admin-orders", protect, IsAdminRole("admin"), getAllAdminOrders);
-Routes.put(
+Routes.patch(
   "/update-orderstatus/:id",
   protect,
   IsAdminRole("admin"),
