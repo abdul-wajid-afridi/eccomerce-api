@@ -5,7 +5,8 @@ const Connection = new Sequelize({
   host: "localhost",
   username: "root",
   password: "",
-  database: "new_db",
+  port: 3307,
+  database: "precius",
   logging: false,
 });
 

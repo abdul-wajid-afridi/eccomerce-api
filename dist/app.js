@@ -11,12 +11,14 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 // models
 const Init_1 = __importDefault(require("./db/Init"));
 // routes
-const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
-const ProductRoutes_1 = __importDefault(require("./routes/ProductRoutes"));
 const CatagoryRoutes_1 = __importDefault(require("./routes/CatagoryRoutes"));
+const GemTypeRoute_1 = __importDefault(require("./routes/GemTypeRoute"));
+const OrderRoutes_1 = __importDefault(require("./routes/OrderRoutes"));
+const ProductRoutes_1 = __importDefault(require("./routes/ProductRoutes"));
+const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
-const PORT = parseInt(process.env.PORT || "3004");
+const PORT = parseInt(process.env.PORT || "3002");
 // middlewares
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
@@ -33,9 +35,11 @@ app.use((0, cors_1.default)({
 // make it comment when once table is created
 Init_1.default;
 // routes
-app.use("/api_v1", UserRoutes_1.default);
-app.use("/api_v1", ProductRoutes_1.default);
-app.use("/api_v1", CatagoryRoutes_1.default);
+app.use("/api", ProductRoutes_1.default);
+app.use("/api", CatagoryRoutes_1.default);
+app.use("/api", GemTypeRoute_1.default);
+app.use("/api", OrderRoutes_1.default);
+app.use("/api", UserRoutes_1.default);
 dbConfig_1.default.sync()
     .then(() => {
     app.listen(PORT, () => {

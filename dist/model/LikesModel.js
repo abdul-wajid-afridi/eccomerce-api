@@ -23,22 +23,6 @@ Likes.init({
         type: sequelize_1.DataTypes.BIGINT,
         field: "product_id",
     },
-    // product_id: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: {
-    //     model: Products,
-    //     key: "id",
-    //   },
-    // },
-    // user_id: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: {
-    //     model: Users,
-    //     key: "id",
-    //   },
-    // },
 }, {
     timestamps: true,
     sequelize: dbConfig_1.default,
@@ -46,6 +30,6 @@ Likes.init({
 });
 ProductModel_1.default.hasMany(Likes);
 Likes.belongsTo(ProductModel_1.default);
-UserModel_1.default.hasMany(Likes); // A user can have many likes
+UserModel_1.default.hasMany(Likes);
 Likes.belongsTo(UserModel_1.default);
 exports.default = Likes;

@@ -149,3 +149,57 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteUser = deleteUser;
+// // forget password.
+// export const forgetPassword = async (
+//   req: Request,
+//   res: Response
+// ): Promise<void> => {
+//   try {
+//     const findEmail = await Users.findOne({
+//       where: { email: req.body.email },
+//     });
+//     if (!findEmail)
+//       return ErrorMessage(res, "no data found with given Email", 404);
+//     const value = Math.random().toString();
+//     const code = value.slice(value.length - 7, value.length - 1);
+// // this will store a code in cache for 120 seconds and then we will compare it with the sended code in email inside verficationCode() function
+// // cache.set("code",code)
+// cache.set("code",parseInt(code),60) //storing for 1 mnts
+// cache.set("user",(findEmail),240) //storing for 4 mnts
+//     sendMail(
+//       [req.body.email],
+//       "Password verifcation Code",
+//       `<p>your verication code is ${parseInt(code)}</p>`
+//     );
+//     ResponseMessage( res, 200, undefined, `verification code send to ${req.body.email}`
+//     );
+//   } catch (error) {
+//     ErrorMessage(res, error, 400);
+//   }
+// }
+// // a verifcation code will be send to the email and verified
+// export const verificationCode = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const verifyCode=cache.get("code") as string
+//     // let user:AgentUserProp | undefined =cache.get("user")
+//     let user:any = cache.get("user")
+//  const token = jwt.sign(
+//   { email: user?.email, id: user?.id},
+//   process.env.SECRETE_KEY as string
+// );
+// const options = {
+//   expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+//   httpOnly: true,
+// };
+//     if(parseInt(verifyCode)===parseInt(req.body.code)){
+//        res
+//       .status(200)
+//       .cookie("token", token, options)
+//       .json({ message: `Verification Successfully ${req.body.code}`, token ,id: user?.user_id });
+//     }else{
+//       ErrorMessage( res,  `Verification Failed with ${req.body.code}`,400)
+//     }
+//   } catch (error) {
+//     ErrorMessage(res, `token might be expired please send token again`, 400)
+//   }
+// };

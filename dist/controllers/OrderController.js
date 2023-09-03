@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteOrder = exports.getUsersOrders = exports.getSingleOrder = exports.getAllOrders = exports.createOrder = void 0;
+exports.updateOrderStatus = exports.getAllAdminOrders = exports.deleteOrder = exports.getUsersOrders = exports.getSingleOrder = exports.getAllOrders = exports.createOrder = void 0;
 const OrderModel_1 = __importDefault(require("../model/OrderModel"));
 const UserModel_1 = __importDefault(require("../model/UserModel"));
+const ProductModel_1 = __importDefault(require("../model/ProductModel"));
+const OrderItem_1 = __importDefault(require("../model/OrderItem"));
 // create orders
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -112,65 +114,64 @@ const deleteOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.deleteOrder = deleteOrder;
 // get all Orders --admin
-// export const getAllAdminOrders =  async (req:Request, res:Response) => {
-//   try {
-//     const order = await Orders.findAll()
-//     if (!order) res.json({ status: "fail", message: "no order found" });
-//     let totalPrice = 0;
-//     order.map((it) => {
-//       return (totalPrice += it?.totalPrice);
-//     });
-//     res.json({
-//       status: "success",
-//       length: order.length,
-//       totalPrice,
-//       order,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-// // update order satus
-// export const updateOrderStatus = async (req, res) => {
-//   const order = await Orders.findById(req.params.id);
-//   if (!order) {
-//     return res.status(400).json({ status: "fail", message: "no order found" });
-//   }
-//   if (order.orderStatus == "Delivered") {
-//     return res
-//       .status(400)
-//       .json({ status: "fail", message: "order is already delivered" });
-//   }
-//   // changing the quantity
-//   // order.orderItems.forEach(async (it) => {
-//   //   const prod = await Products.findById(it.productId);
-//   //   console.log(prod.stock);
-//   //   console.log(it.quantity);
-//   //   await Products.findOneAndUpdate(
-//   //     {
-//   //       _id: it.productId,
-//   //       stock: prod.stock - it.quantity,
-//   //     },
-//   //     { new: true }
-//   //   );
-//   //   await Products.bulkSave();
-//   // });
-//   order.orderItems.forEach(async (it) => {
-//     await updateStock(it.productId, it.quantity);
-//   });
-//   order.orderStatus = req.body.status;
-//   if (req.body.status == "Delivered") {
-//     order.deliveredAt = Date.now();
-//   }
-//   await order.save();
-//   res.status(200).json({
-//     status: "success",
-//     message: "done!",
-//   });
-// };
-// // updating the quantity stock
-// async function updateStock(id, quantity) {
-//   const product = await Products.findById(id);
-//   product.stock -= quantity;
-//   await product.save();
-// }
+const getAllAdminOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const order = yield OrderModel_1.default.findAll();
+        if (!order)
+            res.json({ status: "fail", message: "no order found" });
+        let totalPrice = 0;
+        order.map((it) => {
+            return (totalPrice += it === null || it === void 0 ? void 0 : it.total_price);
+        });
+        res.json({
+            status: "success",
+            length: order.length,
+            totalPrice,
+            order,
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.getAllAdminOrders = getAllAdminOrders;
+// update order satus
+const updateOrderStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const order = yield OrderModel_1.default.findByPk(req.params.id);
+    if (!order) {
+        return res.status(400).json({ status: "fail", message: "no order found" });
+    }
+    if (((_a = order.dataValues) === null || _a === void 0 ? void 0 : _a.status) === "DELIVERED") {
+        return res
+            .status(400)
+            .json({ status: "fail", message: "order is already delivered" });
+    }
+    const orderItems = yield OrderItem_1.default.findAll({
+        where: { id: order.dataValues.id },
+    });
+    orderItems.map((it) => {
+        updateStock(it.dataValues.product_id, it.dataValues.quantity);
+    });
+    order.dataValues.status = req.body.status;
+    if (req.body.status === "DELIVERED") {
+        order.dataValues.order_date = new Date();
+    }
+    yield order.save();
+    res.status(200).json({
+        status: "success",
+        message: "done!",
+    });
+});
+exports.updateOrderStatus = updateOrderStatus;
+// updating the quantity stock
+function updateStock(id, quantity) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const product = yield ProductModel_1.default.findByPk(id);
+        if (product) {
+            product.dataValues.stock = product.dataValues.stock - quantity;
+        }
+        // product?.dataValues.stock as number -= quantity;
+        product === null || product === void 0 ? void 0 : product.save();
+    });
+}

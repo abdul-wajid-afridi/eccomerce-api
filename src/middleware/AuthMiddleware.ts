@@ -34,7 +34,7 @@ const { verify } = jwt;
 
 const protect = async (req: any, res: Response, next: NextFunction) => {
   let { token } = req.cookies;
-  
+
   if (!token) {
     return res.status(401).json({
       message: "no token authorised error",
@@ -45,7 +45,9 @@ const protect = async (req: any, res: Response, next: NextFunction) => {
     const validToken: any = verify(token, process.env.SECRETE_KEY as string);
     // this line mean to find a user by this token and remove password from it coz we will store it as a token
     // req.user = await Users.findById(validToken.id).select("-password");
-    req.user = await Users.findByPk(validToken.id,{attributes:{exclude:["password"]}});
+    req.user = await Users.findByPk(validToken.id, {
+      attributes: { exclude: ["password"] },
+    });
 
     return next();
   } catch (error) {

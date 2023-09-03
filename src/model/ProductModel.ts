@@ -179,7 +179,7 @@ Products.init(
     user_id: DataTypes.BIGINT,
     catagory_id: DataTypes.BIGINT,
     gem_type_id: DataTypes.BIGINT,
-    created_at: DataTypes.DATE,
+    created_at: { type: DataTypes.DATE, defaultValue: Date.now },
   },
   {
     timestamps: false,

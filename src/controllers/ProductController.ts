@@ -47,18 +47,9 @@ export const getSingleProduct = async (req: Request, res: Response) => {
 };
 // posting a product
 export const createProduct = async (req: any | any, res: Response) => {
-  const {
-    name,
-    description,
-    price,
-    rating,
-    catagoryId,
-    stock,
-    num_reviews,
-    reviews,
-  } = req.body;
+  const { name, description, price } = req.body;
   const users_id: number = req.user?.id;
-  const img = req.files["images"][0]?.filename;
+  const img = req.files["images"];
   const thumbnail = req.files["thumbnail"][0]?.filename;
   const video = req.files["video"][0]?.filename;
   const Gallary: GallProp[] = [];
@@ -89,21 +80,11 @@ export const createProduct = async (req: any | any, res: Response) => {
 
 // updating a product
 export const updateProduct = async (req: Request | any, res: Response) => {
-  const {
-    name,
-    description,
-    price,
-    rating,
-    catagoryId,
-    stock,
-    num_reviews,
-    reviews,
-  } = req.body;
   const prodId = req.params.id;
   const users_id: number = req.user?.id;
   // const img: Express.Multer.File[] = req.files;
   // create a type for it
-  const img = req.files["images"][0]?.filename;
+  const img = req.files["images"];
   const thumbnail = req.files["thumbnail"][0]?.filename;
   const video = req.files["video"][0]?.filename;
   const Gallary: GallProp[] = [];

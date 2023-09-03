@@ -6,8 +6,8 @@ import Orders from "./OrderModel";
 
 export interface OrderItemProps {
   id?: number;
-  product_id: number;
-  order_id: number;
+  // product_id: number;
+  // order_id: number;
   total_price: number;
   quantity: number;
 }
@@ -21,9 +21,9 @@ OrderItem.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    order_id: DataTypes.BIGINT,
-    product_id: DataTypes.BIGINT,
-    total_price: DataTypes.DECIMAL(),
+    // order_id: { type: DataTypes.BIGINT({ length: 10 }) },
+    // product_id: { type: DataTypes.BIGINT({ length: 10 }) },
+    total_price: DataTypes.DECIMAL,
     quantity: DataTypes.INTEGER,
   },
   {

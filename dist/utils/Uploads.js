@@ -21,5 +21,5 @@ const filterimg = (req, file, callB) => {
 };
 exports.UploadFiles = (0, multer_1.default)({
     storage,
-    fileFilter: filterimg,
+    // fileFilter: filterimg,
 });

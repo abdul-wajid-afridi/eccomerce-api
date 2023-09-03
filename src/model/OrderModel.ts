@@ -5,7 +5,6 @@ import Users from "./UserModel";
 
 export interface OrderProps {
   id?: number;
-  // product_id: number;
   // user id means its buyer_id who buys this order or products
   user_id: number;
   total_price: number;
@@ -23,7 +22,6 @@ Orders.init(
       primaryKey: true,
     },
     user_id: DataTypes.BIGINT,
-    // product_id: DataTypes.BIGINT,
     total_price: DataTypes.DECIMAL(),
     order_date: DataTypes.DATE,
     status: DataTypes.ENUM("DELIVERED", "PENDING"),

@@ -60,15 +60,18 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.getSingleProduct = getSingleProduct;
 // posting a product
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const { name, description, price, rating, catagoryId, stock, num_reviews, reviews, } = req.body;
+    var _a, _b, _c;
+    const { name, description, price } = req.body;
     const users_id = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
-    const img = req.files;
-    // const img: Express.Multer.File[] = req.files;
+    const img = req.files["images"];
+    const thumbnail = (_b = req.files["thumbnail"][0]) === null || _b === void 0 ? void 0 : _b.filename;
+    const video = (_c = req.files["video"][0]) === null || _c === void 0 ? void 0 : _c.filename;
     const Gallary = [];
+    // const file:Express.Multer.File=req.files
     img.map((it) => Gallary.push({ url: it.filename }));
     try {
-        const data = yield ProductModel_1.default.create(Object.assign(Object.assign({}, req.body), { user_id: users_id }));
+        const data = yield ProductModel_1.default.create(Object.assign(Object.assign({}, req.body), { user_id: users_id, images: Gallary, video,
+            thumbnail }));
         res.status(200).json({
             status: "success",
             data,
@@ -84,14 +87,16 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createProduct = createProduct;
 // updating a product
 const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
-    const { name, description, price, rating, catagoryId, stock, num_reviews, reviews, } = req.body;
+    var _d, _e, _f;
     const prodId = req.params.id;
-    const users_id = (_b = req.user) === null || _b === void 0 ? void 0 : _b.id;
+    const users_id = (_d = req.user) === null || _d === void 0 ? void 0 : _d.id;
     // const img: Express.Multer.File[] = req.files;
     // create a type for it
-    const img = req.files;
+    const img = req.files["images"];
+    const thumbnail = (_e = req.files["thumbnail"][0]) === null || _e === void 0 ? void 0 : _e.filename;
+    const video = (_f = req.files["video"][0]) === null || _f === void 0 ? void 0 : _f.filename;
     const Gallary = [];
+    // const file:Express.Multer.File=req.files
     img.map((it) => Gallary.push({ url: it.filename }));
     try {
         const findProduct = yield ProductModel_1.default.findByPk(prodId);
@@ -100,7 +105,8 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 message: `product not Found with id ${prodId}`,
             });
         }
-        const data = yield ProductModel_1.default.update(Object.assign(Object.assign({}, req.body), { userId: users_id }), { where: { id: prodId } });
+        const data = yield ProductModel_1.default.update(Object.assign(Object.assign({}, req.body), { userId: users_id, images: Gallary, video,
+            thumbnail }), { where: { id: prodId } });
         res.status(200).json({
             status: "success",
             message: `data is updated successfully with id ${prodId}`,

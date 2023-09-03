@@ -151,7 +151,7 @@ Products.init({
     user_id: sequelize_1.DataTypes.BIGINT,
     catagory_id: sequelize_1.DataTypes.BIGINT,
     gem_type_id: sequelize_1.DataTypes.BIGINT,
-    created_at: sequelize_1.DataTypes.DATE,
+    created_at: { type: sequelize_1.DataTypes.DATE, defaultValue: Date.now },
 }, {
     timestamps: false,
     sequelize: dbConfig_1.default,

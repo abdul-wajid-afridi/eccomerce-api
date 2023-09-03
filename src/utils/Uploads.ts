@@ -26,5 +26,5 @@ const filterimg = (
 
 export const UploadFiles = multer({
   storage,
-  fileFilter: filterimg,
+  // fileFilter: filterimg,
 });

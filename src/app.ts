@@ -7,13 +7,15 @@ import cookieParser from "cookie-parser";
 // models
 import dbInit from "./db/Init";
 // routes
-import userRoutes from "./routes/UserRoutes";
-import productRoutes from "./routes/ProductRoutes";
 import catagoryRoutes from "./routes/CatagoryRoutes";
+import GemTypeRoutes from "./routes/GemTypeRoute";
+import orderRoute from "./routes/OrderRoutes";
+import productRoutes from "./routes/ProductRoutes";
+import userRoutes from "./routes/UserRoutes";
 
 const app = express();
 dotenv.config();
-const PORT: number = parseInt(process.env.PORT || "3004");
+const PORT: number = parseInt(process.env.PORT || "3002");
 
 // middlewares
 app.use(cookieParser());
@@ -25,19 +27,21 @@ app.use(
     // origin: {
     //   URL: "http://localhost:3000/",
     // },
-    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
 );
 
 // tables genrating
 // make it comment when once table is created
-dbInit
+dbInit;
 
 // routes
-app.use("/api_v1", userRoutes);
-app.use("/api_v1", productRoutes);
-app.use("/api_v1", catagoryRoutes);
+app.use("/api", productRoutes);
+app.use("/api", catagoryRoutes);
+app.use("/api", GemTypeRoutes);
+app.use("/api", orderRoute);
+app.use("/api", userRoutes);
 
 Connection.sync()
   .then(() => {

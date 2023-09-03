@@ -10,10 +10,10 @@ const Uploads_1 = require("../utils/Uploads");
 const AuthMiddleware_1 = __importDefault(require("../middleware/AuthMiddleware"));
 const routes = (0, express_1.Router)();
 routes.get("/users", UserController_1.getAllUsers);
+routes.get("/users/cookie", UserController_1.getCookies);
 routes.post("/users/signup", Uploads_1.UploadFiles.single("image"), UserController_1.signUp);
 routes.post("/users/login", UserController_1.loginUser);
 routes.post("/users/logout", UserController_1.LogOut);
-routes.get("/users/cookie", UserController_1.getCookies);
 // routes.patch("/users/:id",updateUser)
 // first the protect will give user to IsAdminRole() function and will cheack if user is admin then it will go further for its functionality
 // routes.delete("/users/:id", protect, deleteUser);
